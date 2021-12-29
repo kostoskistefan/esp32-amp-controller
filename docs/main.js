@@ -43,7 +43,7 @@ configureFirebaseButton.onclick = function () {
 
     app = initializeApp(firebaseConfig);
     database = getDatabase(app);
-    databaseRef = ref(database, "/amp/data/");
+    databaseRef = databaseRef = ref(database);
 
     navbarTogglerButton.click();
 };
