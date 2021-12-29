@@ -12,8 +12,14 @@ void stream_callback(FirebaseStream data)
     if (strcmp(data.dataPath().c_str(), AMP_TYPE) == 0)
         send_midi(AMP_TYPE_BASE_VALUE + data.to<int>());
 
-    else if (strcmp(data.dataPath().c_str(), DELAY_TOGGLE) == 0)
-        send_midi(DELAY_TOGGLE_VALUE + data.to<int>());
+    else if (strcmp(data.dataPath().c_str(), OVERDRIVE_ACTIVE) == 0)
+        send_midi(OVERDRIVE_BASE_VALUE + data.to<int>());
+
+    else if (strcmp(data.dataPath().c_str(), DELAY_ACTIVE) == 0)
+        send_midi(DELAY_BASE_VALUE + data.to<int>());
+
+    else if (strcmp(data.dataPath().c_str(), REVERB_ACTIVE) == 0)
+        send_midi(REVERB_BASE_VALUE + data.to<int>());
 }
 
 void initialize_serial()

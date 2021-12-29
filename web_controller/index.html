@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Amplifier Controller</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .navbar-toggler {
+            border: none !important;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .color-changed {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <script type="module" src="main.js"></script>
+
+    <nav class="navbar sticky-top shadow-sm border-bottom navbar-light bg-light px-3" style="z-index: 2000;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-speaker"></i>
+                VAC
+            </a>
+            <button id="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#settings"
+                aria-controls="settings" aria-expanded="false" aria-label="Toggle settings">
+                <i class="bi bi-gear"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div id="modal-background" style="z-index: 1400;"></div>
+
+    <div class="collapse container-sm rounded-3 shadow p-3 bg-light position-fixed top-50 start-50 translate-middle"
+        style="z-index: 1500;" id="settings">
+        <h4 class="mb-4"><i class="bi bi-gear"></i> Firebase Configuration</h4>
+        <form>
+            <div class="input-group mb-3">
+                <input id="apiKeyInput" class="form-control" placeholder="API Key" required />
+            </div>
+            <div class="input-group mb-3">
+                <input id="databaseUrlInput" class="form-control" placeholder="Database URL" required />
+            </div>
+            <div class="d-grid">
+                <button id="configureFirebase" class="btn btn-success">Set</button>
+            </div>
+        </form>
+    </div>
+
+    <h2 class="text-center my-4">Virtual Amplifier Controller</h2>
+
+    <div class="container p-0">
+        <div class="d-grid gap-5">
+            <div class="rounded-3 shadow p-3">
+                <h3 class="mb-3">Amplifier Type</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons.flaticon.com/png/512/1682/premium/1682640.png?token=exp=1640788597~hmac=9a689e9ec3f3424e6a83070599dcc482"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Clean</h4>
+                                <div class="d-grid">
+                                    <button id="activateCleanAmp" type="button"
+                                        class="btn btn-primary">Activate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3231/3231808.png"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Crunch</h4>
+                                <div class="d-grid">
+                                    <button id="activateCrunchAmp" type="button"
+                                        class="btn btn-warning">Activate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2590/2590168.png"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Lead</h4>
+                                <div class="d-grid">
+                                    <button id="activateLeadAmp" type="button" class="btn btn-danger">Activate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-3 shadow p-3">
+                <h3 class="mb-3">Effect Pedals</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1454/1454301.png"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Overdrive</h4>
+                                <div class="d-grid gap-2">
+                                    <button id="enableOverdrive" class="btn btn-primary">Enable</button>
+                                    <button id="disableOverdrive" class="btn btn-danger">Disable</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1776/1776565.png"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Delay</h4>
+                                <div class="d-grid gap-2">
+                                    <button id="enableDelay" class="btn btn-primary">Enable</button>
+                                    <button id="disableDelay" class="btn btn-danger">Disable</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <img src="https://cdn-icons.flaticon.com/png/512/1682/premium/1682607.png?token=exp=1640787743~hmac=7a62294278f21c0bbf5ef8217647b00b"
+                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Reverb</h4>
+                                <div class="d-grid gap-2">
+                                    <button id="enableReverb" class="btn btn-primary">Enable</button>
+                                    <button id="disableReverb" class="btn btn-danger">Disable</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
