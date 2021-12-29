@@ -13,6 +13,8 @@
 
 MIDI_CREATE_DEFAULT_INSTANCE();
 
+#define LED 2
+
 #define NOTE_VELOCITY         0x7F
 #define MIDI_CHANNEL          1
 
@@ -29,11 +31,11 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 #define API_KEY               "API_KEY"
 #define DATABASE_URL          "DATABASE_URL"
 
-#define API_ROOT              "/amp/data"
-#define AMP_TYPE              "/amp_type"
-#define OVERDRIVE_ACTIVE      "/overdrive_active"
-#define DELAY_ACTIVE          "/delay_active"
-#define REVERB_ACTIVE         "/reverb_active"
+#define API_ROOT              "/"
+#define AMP_TYPE              "amp_type"
+#define OVERDRIVE_ACTIVE      "overdrive_active"
+#define DELAY_ACTIVE          "delay_active"
+#define REVERB_ACTIVE         "reverb_active"
 
 FirebaseData stream;
 FirebaseData fbdo;

@@ -9,17 +9,26 @@ void send_midi(uint8_t note)
 
 void stream_callback(FirebaseStream data)
 {
-    if (strcmp(data.dataPath().c_str(), AMP_TYPE) == 0)
-        send_midi(AMP_TYPE_BASE_VALUE + data.to<int>());
+    FirebaseJson *json = data.to<FirebaseJson *>();
+    uint8_t len = json->iteratorBegin();
 
-    else if (strcmp(data.dataPath().c_str(), OVERDRIVE_ACTIVE) == 0)
-        send_midi(OVERDRIVE_BASE_VALUE + data.to<int>());
+    for (size_t i = 0; i < len; i++)
+    {
+        if (strcmp(json->valueAt(i).key.c_str(), AMP_TYPE) == 0)
+            send_midi(AMP_TYPE_BASE_VALUE + json->valueAt(i).value.toInt());
 
-    else if (strcmp(data.dataPath().c_str(), DELAY_ACTIVE) == 0)
-        send_midi(DELAY_BASE_VALUE + data.to<int>());
+        else if (strcmp(json->valueAt(i).key.c_str(), OVERDRIVE_ACTIVE) == 0)
+            send_midi(OVERDRIVE_BASE_VALUE + json->valueAt(i).value.toInt());
 
-    else if (strcmp(data.dataPath().c_str(), REVERB_ACTIVE) == 0)
-        send_midi(REVERB_BASE_VALUE + data.to<int>());
+        else if (strcmp(json->valueAt(i).key.c_str(), DELAY_ACTIVE) == 0)
+            send_midi(DELAY_BASE_VALUE + json->valueAt(i).value.toInt());
+
+        else if (strcmp(json->valueAt(i).key.c_str(), REVERB_ACTIVE) == 0)
+            send_midi(REVERB_BASE_VALUE + json->valueAt(i).value.toInt());
+    }
+
+    json->iteratorEnd();
+    json->clear();
 }
 
 void initialize_serial()
@@ -55,9 +64,11 @@ void initialize_firebase()
 
 void setup()
 {
+    pinMode(LED, OUTPUT);
     initialize_serial();
     initialize_wifi();
     initialize_firebase();
+    digitalWrite(LED, HIGH);
 }
 
 void loop() {}
