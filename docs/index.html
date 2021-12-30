@@ -20,7 +20,7 @@
         * {
             font-family: 'Montserrat', sans-serif;
         }
-        
+
         body {
             background-image: url(https://www.transparenttextures.com/patterns/cubes.png);
         }
@@ -83,41 +83,42 @@
         <div class="d-grid gap-5">
             <div class="rounded-3 shadow p-3 bg-light">
                 <h3 class="mb-3">Amplifier Type</h3>
-                <div class="row">
+                <div class="row" id="ampTypeContainer">
                     <div class="col-md-4 mb-md-0 mb-3">
                         <div class="card text-center">
-                            <img src="images/clean_amplifier.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/clean_amplifier.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Clean</h4>
                                 <div class="d-grid">
-                                    <button id="activateCleanAmp" type="button"
-                                        class="btn btn-primary">Activate</button>
+                                    <input type="radio" class="btn-check" name="amp-type-option" id="activateCleanAmp"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-success" for="activateCleanAmp">Activate</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-md-0 mb-3">
                         <div class="card text-center">
-                            <img src="images/crunch_amplifier.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/crunch_amplifier.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Crunch</h4>
                                 <div class="d-grid">
-                                    <button id="activateCrunchAmp" type="button"
-                                        class="btn btn-warning">Activate</button>
+                                    <input type="radio" class="btn-check" name="amp-type-option" id="activateCrunchAmp"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-warning" for="activateCrunchAmp">Activate</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-center">
-                            <img src="images/lead_amplifier.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/lead_amplifier.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Lead</h4>
                                 <div class="d-grid">
-                                    <button id="activateLeadAmp" type="button" class="btn btn-danger">Activate</button>
+                                    <input type="radio" class="btn-check" name="amp-type-option" id="activateLeadAmp"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-danger" for="activateLeadAmp">Activate</label>
                                 </div>
                             </div>
                         </div>
@@ -127,42 +128,51 @@
 
             <div class="rounded-3 shadow p-3 bg-light">
                 <h3 class="mb-3">Effect Pedals</h3>
-                <div class="row">
+                <div class="row" id="effectPedalContainer">
                     <div class="col-md-4 mb-md-0 mb-3">
                         <div class="card text-center">
-                            <img src="images/overdrive_pedal.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/overdrive_pedal.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Overdrive</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableOverdrive" class="btn btn-outline-success">Enable</button>
-                                    <button id="disableOverdrive" class="btn btn-outline-danger">Disable</button>
+                                    <input type="radio" class="btn-check" name="overdrive-option" id="enableOverdrive"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-success" for="enableOverdrive">Enable</label>
+                                    <input type="radio" class="btn-check" name="overdrive-option" id="disableOverdrive"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-danger" for="disableOverdrive">Disable</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-md-0 mb-3">
                         <div class="card text-center">
-                            <img src="images/delay_pedal.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/delay_pedal.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Delay</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableDelay" class="btn btn-outline-success">Enable</button>
-                                    <button id="disableDelay" class="btn btn-outline-danger">Disable</button>
+                                    <input type="radio" class="btn-check" name="delay-option" id="enableDelay"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-success" for="enableDelay">Enable</label>
+                                    <input type="radio" class="btn-check" name="delay-option" id="disableDelay"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-danger" for="disableDelay">Disable</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-center">
-                            <img src="images/reverb_pedal.png"
-                                class="card-img-top p-3 w-75 mx-auto" alt="...">
+                            <img src="images/reverb_pedal.png" class="card-img-top p-3 w-75 mx-auto" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Reverb</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableReverb" class="btn btn-outline-success">Enable</button>
-                                    <button id="disableReverb" class="btn btn-outline-danger">Disable</button>
+                                    <input type="radio" class="btn-check" name="reverb-option" id="enableReverb"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-success" for="enableReverb">Enable</label>
+                                    <input type="radio" class="btn-check" name="reverb-option" id="disableReverb"
+                                        autocomplete="off" disabled>
+                                    <label class="btn btn-outline-danger" for="disableReverb">Disable</label>
                                 </div>
                             </div>
                         </div>
