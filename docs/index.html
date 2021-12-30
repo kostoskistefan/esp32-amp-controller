@@ -52,7 +52,7 @@
                 <i class="bi bi-speaker"></i>
                 VAC
             </a>
-            <button id="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <button id="navbarSettingsButton" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#settings" aria-controls="settings" aria-expanded="false" aria-label="Toggle settings">
                 <i class="bi bi-gear"></i>
             </button>
@@ -71,8 +71,13 @@
             <div class="input-group mb-4">
                 <input id="databaseUrlInput" class="form-control" placeholder="Database URL" required />
             </div>
-            <div class="d-grid">
-                <button id="configureFirebase" class="btn btn-success">Set</button>
+            <div class="row">
+                <div class="col-md-6 d-grid mb-md-0 mb-2">
+                    <button id="setConfigDialog" class="btn btn-success">Set</button>
+                </div>
+                <div class="col-md-6 d-grid">
+                    <button id="resetConfigDialog" class="btn btn-danger">Reset</button>
+                </div>
             </div>
         </div>
     </div>

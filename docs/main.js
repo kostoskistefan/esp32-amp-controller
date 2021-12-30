@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"
+import { getDatabase, ref, update, get, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"
 
-const firebaseConfig = {
+let firebaseConfig = {
     apiKey: "",
     databaseURL: "",
 };
@@ -10,9 +10,13 @@ let app = null;
 let database = null;
 let databaseRef = null;
 
-let configureFirebaseButton = document.getElementById("configureFirebase");
+let setConfigDialogButton = document.getElementById("setConfigDialog");
+let resetConfigDialogButton = document.getElementById("resetConfigDialog");
 
-let navbarTogglerButton = document.getElementById("navbar-toggler");
+let navbarSettingsButton = document.getElementById("navbarSettingsButton");
+
+let apiKeyInput = document.getElementById("apiKeyInput");
+let databaseUrlInput = document.getElementById("databaseUrlInput");
 
 let activateCleanAmpButton = document.getElementById("activateCleanAmp");
 let activateCrunchAmpButton = document.getElementById("activateCrunchAmp");
@@ -34,18 +38,7 @@ function docReady(fn) {
     else document.addEventListener("DOMContentLoaded", fn);
 }
 
-docReady(function () {
-    if (load_firebase_config_from_cookies()) {
-        document.querySelectorAll("input:disabled").forEach(b => b.removeAttribute("disabled"));
-        
-        let apiKey = document.getElementById("apiKeyInput").value;
-        let databaseURL = document.getElementById("databaseUrlInput").value;
-
-        load_firebase(apiKey, databaseURL);
-    }
-});
-
-function load_firebase_config_from_cookies() {
+function loadFirebaseConfigFromCookies() {
     let apiKey = getCookie("apiKey");
     let databaseURL = getCookie("databaseURL");
 
@@ -53,8 +46,10 @@ function load_firebase_config_from_cookies() {
         firebaseConfig.apiKey = apiKey;
         firebaseConfig.databaseURL = databaseURL;
 
-        document.getElementById("apiKeyInput").value = apiKey;
-        document.getElementById("databaseUrlInput").value = databaseURL;
+        apiKeyInput.value = apiKey;
+        databaseUrlInput.value = databaseURL;
+
+        invalidateConfigDialog();
 
         return true;
     }
@@ -62,12 +57,20 @@ function load_firebase_config_from_cookies() {
     return false;
 }
 
-navbarTogglerButton.onclick = function () {
-    load_firebase_config_from_cookies();
-    document.getElementById("modal-background").classList.toggle("color-changed");
+function updateWebpageFromFirebaseData(data) {
+    let ampTypeContainer = document.getElementById("ampTypeContainer");
+    let effectPedalContainer = document.getElementById("effectPedalContainer");
+
+    ampTypeContainer.querySelectorAll("input")[data.amp_type].checked = true;
+    effectPedalContainer.querySelectorAll("input")[1 - data.overdrive_active].checked = true;
+    effectPedalContainer.querySelectorAll("input")[1 - data.delay_active + 2].checked = true;
+    effectPedalContainer.querySelectorAll("input")[1 - data.reverb_active + 4].checked = true;
 }
 
-function load_firebase(apiKey, databaseURL) {
+function loadFirebase() {
+    let apiKey = apiKeyInput.value;
+    let databaseURL = databaseUrlInput.value;
+
     if (!apiKey || !databaseURL)
         return;
 
@@ -76,32 +79,87 @@ function load_firebase(apiKey, databaseURL) {
 
     app = initializeApp(firebaseConfig);
     database = getDatabase(app);
-    databaseRef = databaseRef = ref(database);
+    databaseRef = ref(database);
 
-    get(databaseRef).then(rawData => {
-        let data = rawData.val();
-        document.getElementById("ampTypeContainer").querySelectorAll("input")[data.amp_type].checked = true;
-        document.getElementById("effectPedalContainer").querySelectorAll("input")[1 - data.overdrive_active].checked = true;
-        document.getElementById("effectPedalContainer").querySelectorAll("input")[1 - data.delay_active + 2].checked = true;
-        document.getElementById("effectPedalContainer").querySelectorAll("input")[1 - data.reverb_active + 4].checked = true;
-    }).catch((error) => {
-        console.error(error);
-    });
+    get(databaseRef).then(data => updateWebpageFromFirebaseData(data.val())).catch(console.error);
+
+    onValue(databaseRef, (data) => updateWebpageFromFirebaseData(data.val()));
 
     document.querySelectorAll("input:disabled").forEach(b => b.removeAttribute("disabled"));
 }
 
-configureFirebaseButton.onclick = function () {
-    let apiKey = document.getElementById("apiKeyInput").value;
-    let databaseURL = document.getElementById("databaseUrlInput").value;
+function invalidateConfigDialog() {
+    setConfigDialogButton.disabled = true;
+    apiKeyInput.readOnly = true;
+    databaseUrlInput.readOnly = true;
+}
 
-    load_firebase(apiKey, databaseURL);
+function setCookie(name, value, days) {
+    var expires = "";
 
-    setCookie("apiKey", apiKey, 7);
-    setCookie("databaseURL", databaseURL, 7);
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
 
-    navbarTogglerButton.click();
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+
+        while (c.charAt(0) == ' ')
+            c = c.substring(1, c.length);
+
+        if (c.indexOf(nameEQ) == 0)
+            return c.substring(nameEQ.length, c.length);
+    }
+
+    return null;
+}
+
+function removeCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+docReady(function () {
+    if (loadFirebaseConfigFromCookies()) {
+        document.querySelectorAll("input:disabled").forEach(b => b.removeAttribute("disabled"));
+
+        loadFirebase();
+    }
+});
+
+navbarSettingsButton.onclick = function () {
+    loadFirebaseConfigFromCookies();
+    document.getElementById("modal-background").classList.toggle("color-changed");
+}
+
+setConfigDialogButton.onclick = function () {
+    loadFirebase();
+
+    setCookie("apiKey", firebaseConfig.apiKey, 7);
+    setCookie("databaseURL", firebaseConfig.databaseURL, 7);
+
+    invalidateConfigDialog();
+
+    navbarSettingsButton.click();
 };
+
+resetConfigDialogButton.onclick = function () {
+    apiKeyInput.value = "";
+    databaseUrlInput.value = "";
+
+    removeCookie("apiKey");
+    removeCookie("databaseURL");
+
+    location.reload();
+}
 
 activateCleanAmpButton.onclick = function () { update(databaseRef, { amp_type: 0 }) };
 activateCrunchAmpButton.onclick = function () { update(databaseRef, { amp_type: 1 }) };
@@ -115,24 +173,3 @@ disableDelayAmpButton.onclick = function () { update(databaseRef, { delay_active
 
 enableReverbButton.onclick = function () { update(databaseRef, { reverb_active: 1 }) };
 disableReverbButton.onclick = function () { update(databaseRef, { reverb_active: 0 }) };
-
-function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}

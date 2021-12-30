@@ -12,23 +12,32 @@ void stream_callback(FirebaseStream data)
     FirebaseJson *json = data.to<FirebaseJson *>();
     uint8_t len = json->iteratorBegin();
 
-    for (size_t i = 0; i < len; i++)
+    for (uint8_t i = 0; i < len; i++)
     {
-        if (strcmp(json->valueAt(i).key.c_str(), AMP_TYPE) == 0)
-            send_midi(AMP_TYPE_BASE_VALUE + json->valueAt(i).value.toInt());
+        const char *key = json->valueAt(i).key.c_str();
+        uint8_t value = json->valueAt(i).value.toInt();
 
-        else if (strcmp(json->valueAt(i).key.c_str(), OVERDRIVE_ACTIVE) == 0)
-            send_midi(OVERDRIVE_BASE_VALUE + json->valueAt(i).value.toInt());
+        if (strcmp(key, AMP_TYPE_KEY) == 0)
+            send_midi(AMP_TYPE_MIDI_VALUE + value);
 
-        else if (strcmp(json->valueAt(i).key.c_str(), DELAY_ACTIVE) == 0)
-            send_midi(DELAY_BASE_VALUE + json->valueAt(i).value.toInt());
+        else if (strcmp(key, OVERDRIVE_KEY) == 0)
+            send_midi(OVERDRIVE_MIDI_VALUE + value);
 
-        else if (strcmp(json->valueAt(i).key.c_str(), REVERB_ACTIVE) == 0)
-            send_midi(REVERB_BASE_VALUE + json->valueAt(i).value.toInt());
+        else if (strcmp(key, DELAY_KEY) == 0)
+            send_midi(DELAY_MIDI_VALUE + value);
+
+        else if (strcmp(key, REVERB_KEY) == 0)
+            send_midi(REVERB_MIDI_VALUE + value);
     }
 
     json->iteratorEnd();
     json->clear();
+}
+
+void initialize_pins()
+{
+    pinMode(LED, OUTPUT);
+    digitalWrite(LED, HIGH);
 }
 
 void initialize_serial()
@@ -62,13 +71,24 @@ void initialize_firebase()
     Firebase.RTDB.setStreamCallback(&stream, stream_callback, [](bool) {});
 }
 
+void set_default_amp_preset() {
+    FirebaseJson json;
+
+    json.add(AMP_TYPE_KEY, 0);
+    json.add(OVERDRIVE_KEY, 0);
+    json.add(DELAY_KEY, 0);
+    json.add(REVERB_KEY, 0);
+
+    Firebase.RTDB.setJSONAsync(&fbdo, API_ROOT, &json);
+}
+
 void setup()
 {
-    pinMode(LED, OUTPUT);
     initialize_serial();
     initialize_wifi();
     initialize_firebase();
-    digitalWrite(LED, HIGH);
+    initialize_pins();
+    set_default_amp_preset();
 }
 
 void loop() {}
