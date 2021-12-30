@@ -20,6 +20,10 @@
         * {
             font-family: 'Montserrat', sans-serif;
         }
+        
+        body {
+            background-image: url(https://www.transparenttextures.com/patterns/cubes.png);
+        }
 
         .navbar-toggler {
             border: none !important;
@@ -64,7 +68,7 @@
             <div class="input-group mb-3">
                 <input id="apiKeyInput" class="form-control" placeholder="API Key" required />
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group mb-4">
                 <input id="databaseUrlInput" class="form-control" placeholder="Database URL" required />
             </div>
             <div class="d-grid">
@@ -73,11 +77,11 @@
         </div>
     </div>
 
-    <h2 class="text-center my-4">Virtual Amplifier Controller</h2>
+    <h2 class="text-center my-4 fw-bold">Virtual Amplifier Controller</h2>
 
     <div class="container p-0 mb-5">
         <div class="d-grid gap-5">
-            <div class="rounded-3 shadow p-3">
+            <div class="rounded-3 shadow p-3 bg-light">
                 <h3 class="mb-3">Amplifier Type</h3>
                 <div class="row">
                     <div class="col-md-4">
@@ -88,7 +92,7 @@
                                 <h4 class="card-title mb-4">Clean</h4>
                                 <div class="d-grid">
                                     <button id="activateCleanAmp" type="button"
-                                        class="btn btn-primary">Activate</button>
+                                        class="btn btn-outline-primary">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +105,7 @@
                                 <h4 class="card-title mb-4">Crunch</h4>
                                 <div class="d-grid">
                                     <button id="activateCrunchAmp" type="button"
-                                        class="btn btn-warning">Activate</button>
+                                        class="btn btn-outline-warning">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +117,7 @@
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Lead</h4>
                                 <div class="d-grid">
-                                    <button id="activateLeadAmp" type="button" class="btn btn-danger">Activate</button>
+                                    <button id="activateLeadAmp" type="button" class="btn btn-outline-danger">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +125,7 @@
                 </div>
             </div>
 
-            <div class="rounded-3 shadow p-3">
+            <div class="rounded-3 shadow p-3 bg-light">
                 <h3 class="mb-3">Effect Pedals</h3>
                 <div class="row">
                     <div class="col-md-4">
@@ -131,8 +135,8 @@
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Overdrive</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableOverdrive" class="btn btn-primary">Enable</button>
-                                    <button id="disableOverdrive" class="btn btn-danger">Disable</button>
+                                    <button id="enableOverdrive" class="btn btn-outline-success">Enable</button>
+                                    <button id="disableOverdrive" class="btn btn-outline-danger">Disable</button>
                                 </div>
                             </div>
                         </div>
@@ -144,8 +148,8 @@
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Delay</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableDelay" class="btn btn-primary">Enable</button>
-                                    <button id="disableDelay" class="btn btn-danger">Disable</button>
+                                    <button id="enableDelay" class="btn btn-outline-success">Enable</button>
+                                    <button id="disableDelay" class="btn btn-outline-danger">Disable</button>
                                 </div>
                             </div>
                         </div>
@@ -157,8 +161,8 @@
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Reverb</h4>
                                 <div class="d-grid gap-2">
-                                    <button id="enableReverb" class="btn btn-primary">Enable</button>
-                                    <button id="disableReverb" class="btn btn-danger">Disable</button>
+                                    <button id="enableReverb" class="btn btn-outline-success">Enable</button>
+                                    <button id="disableReverb" class="btn btn-outline-danger">Disable</button>
                                 </div>
                             </div>
                         </div>
