@@ -87,6 +87,47 @@
     <div class="container p-0 mb-5">
         <div class="d-grid gap-5">
             <div class="rounded-3 shadow p-3 bg-light">
+                <div class="text-center">
+                    <h5 class="text-muted">Selected Preset: </h5>
+                    <h5 class="text-primary mb-3 " id="selectedPreset">None</h5>
+                </div>
+                <hr>
+                <div class="dropdown d-grid">
+                    <button class="btn btn-outline-warning text-dark dropdown-toggle" type="button" id="presetsDropdown"
+                        data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                        Amp Presets
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end p-0 w-100"
+                        aria-labelledby="presetsDropdown">
+                        <li>
+                            <h6 class="dropdown-header pb-0">Clean</h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><button class="dropdown-item" id="largeAmbientPreset">Large Ambient</button></li>
+                        <li><button class="dropdown-item" id="rainDropsPreset">Rain Drops</button></li>
+                        <li>
+                            <h6 class="dropdown-header py-0 mt-4">Crunch</h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><button class="dropdown-item" id="jimmyHendriffsPreset">Jimmy HendRIFFs</button></li>
+                        <li><button class="dropdown-item" id="johnnyBLeadPreset">Johnny B Lead</button></li>
+                        <li>
+                            <h6 class="dropdown-header py-0 mt-4">Metal</h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><button class="dropdown-item" id="architectsRhythmPreset">Architects Rhythm</button></li>
+                        <li><button class="dropdown-item" id="memphisMayShreadPreset">Memphis May Shred</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="rounded-3 shadow p-3 bg-light">
                 <h3 class="mb-3">Amplifier Type</h3>
                 <div class="row" id="ampTypeContainer">
                     <div class="col-md-4 mb-md-0 mb-3">

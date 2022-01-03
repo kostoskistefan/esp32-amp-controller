@@ -34,6 +34,7 @@
 #define OVERDRIVE_KEY         "overdrive_active"
 #define DELAY_KEY             "delay_active"
 #define REVERB_KEY            "reverb_active"
+#define SELECTED_PRESET_KEY   "selected_preset"
 
 FirebaseData stream;
 FirebaseData fbdo;

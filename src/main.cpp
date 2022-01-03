@@ -77,6 +77,7 @@ void set_default_amp_preset() {
     json.add(OVERDRIVE_KEY, 0);
     json.add(DELAY_KEY, 0);
     json.add(REVERB_KEY, 0);
+    json.add(SELECTED_PRESET_KEY, "None");
 
     Firebase.RTDB.setJSONAsync(&fbdo, API_ROOT, &json);
 }

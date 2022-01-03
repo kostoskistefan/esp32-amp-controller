@@ -1,5 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, update, get, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"
+import { getDatabase, ref, update, get, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"
+
+let preset = {
+    amp_type: 0,
+    overdrive_active: 0,
+    delay_active: 0,
+    reverb_active: 0,
+    selected_preset: "None"
+};
 
 let firebaseConfig = {
     apiKey: "",
@@ -30,6 +38,15 @@ let disableDelayAmpButton = document.getElementById("disableDelay");
 
 let enableReverbButton = document.getElementById("enableReverb");
 let disableReverbButton = document.getElementById("disableReverb");
+
+let largeAmbientPresetButton = document.getElementById("largeAmbientPreset");
+let rainDropsPresetButton = document.getElementById("rainDropsPreset");
+let jimmyHendriffsPresetButton = document.getElementById("jimmyHendriffsPreset");
+let johnnyBLeadPresetButton = document.getElementById("johnnyBLeadPreset");
+let architectsRhythmPresetButton = document.getElementById("architectsRhythmPreset");
+let memphisMayShreadPresetButton = document.getElementById("memphisMayShreadPreset");
+
+let selectedPreset = document.getElementById("selectedPreset");
 
 function docReady(fn) {
     if (document.readyState === "complete" || document.readyState === "interactive")
@@ -65,6 +82,7 @@ function updateWebpageFromFirebaseData(data) {
     effectPedalContainer.querySelectorAll("input")[1 - data.overdrive_active].checked = true;
     effectPedalContainer.querySelectorAll("input")[1 - data.delay_active + 2].checked = true;
     effectPedalContainer.querySelectorAll("input")[1 - data.reverb_active + 4].checked = true;
+    selectedPreset.innerText = data.selected_preset;
 }
 
 function loadFirebase() {
@@ -127,6 +145,17 @@ function removeCookie(name) {
     document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+function setPreset(name, ampType, overdrive, delay, reverb){
+    preset.amp_type = ampType;
+    preset.overdrive_active = overdrive;
+    preset.delay_active = delay;
+    preset.reverb_active = reverb;
+    preset.selected_preset = name;
+    selectedPreset.innerText = name;
+
+    set(databaseRef, preset);
+}
+
 docReady(function () {
     if (loadFirebaseConfigFromCookies()) {
         document.querySelectorAll("input:disabled").forEach(b => b.removeAttribute("disabled"));
@@ -173,3 +202,10 @@ disableDelayAmpButton.onclick = function () { update(databaseRef, { delay_active
 
 enableReverbButton.onclick = function () { update(databaseRef, { reverb_active: 1 }) };
 disableReverbButton.onclick = function () { update(databaseRef, { reverb_active: 0 }) };
+
+largeAmbientPresetButton.onclick = function() { setPreset(this.innerText, 0, 0, 0, 1) };
+rainDropsPresetButton.onclick = function() { setPreset(this.innerText, 0, 0, 1, 1) };
+jimmyHendriffsPresetButton.onclick = function() { setPreset(this.innerText, 1, 0, 0, 0) };
+johnnyBLeadPresetButton.onclick = function() { setPreset(this.innerText, 1, 1, 0, 1) };
+architectsRhythmPresetButton.onclick = function() { setPreset(this.innerText, 2, 1, 0, 0) };
+memphisMayShreadPresetButton.onclick = function() { setPreset(this.innerText, 2, 1, 1, 1) };
