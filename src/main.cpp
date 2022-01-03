@@ -14,19 +14,18 @@ void stream_callback(FirebaseStream data)
 
     for (uint8_t i = 0; i < len; i++)
     {
-        const char *key = json->valueAt(i).key.c_str();
         uint8_t value = json->valueAt(i).value.toInt();
 
-        if (strcmp(key, AMP_TYPE_KEY) == 0)
+        if (strcmp(json->valueAt(i).key.c_str(), AMP_TYPE_KEY) == 0)
             send_midi(AMP_TYPE_MIDI_VALUE + value);
 
-        else if (strcmp(key, OVERDRIVE_KEY) == 0)
+        else if (strcmp(json->valueAt(i).key.c_str(), OVERDRIVE_KEY) == 0)
             send_midi(OVERDRIVE_MIDI_VALUE + value);
 
-        else if (strcmp(key, DELAY_KEY) == 0)
+        else if (strcmp(json->valueAt(i).key.c_str(), DELAY_KEY) == 0)
             send_midi(DELAY_MIDI_VALUE + value);
 
-        else if (strcmp(key, REVERB_KEY) == 0)
+        else if (strcmp(json->valueAt(i).key.c_str(), REVERB_KEY) == 0)
             send_midi(REVERB_MIDI_VALUE + value);
     }
 
@@ -87,8 +86,8 @@ void setup()
     initialize_serial();
     initialize_wifi();
     initialize_firebase();
-    initialize_pins();
     set_default_amp_preset();
+    initialize_pins();
 }
 
 void loop() {}
