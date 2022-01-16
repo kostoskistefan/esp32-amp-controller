@@ -232,6 +232,8 @@ void update_amp_setting(uint8_t selected_amp)
 {
     if (ampButtons[selected_amp].justPressed())
     {
+        send_midi(AMP_TYPE_MIDI_VALUE + selected_amp);
+
         clear_amp_type();
 
         selectedAmpNumber[selected_amp] = true;
@@ -249,6 +251,15 @@ void update_pedal_setting(TFT_eSPI_Button &button, char *key, uint8_t &value)
     if (button.justPressed())
     {
         value = 1 - value;
+
+        if(strcmp(key, OVERDRIVE_KEY) == 0)
+            send_midi(OVERDRIVE_MIDI_VALUE + value);
+
+        else if(strcmp(key, DELAY_KEY) == 0)
+            send_midi(DELAY_MIDI_VALUE + value);
+
+        else if(strcmp(key, REVERB_KEY) == 0)
+            send_midi(REVERB_MIDI_VALUE + value);
 
         Firebase.RTDB.setIntAsync(&fbdo, key, value);
 
